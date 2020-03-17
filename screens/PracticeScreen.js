@@ -24,19 +24,21 @@ const getExamQuestion = () => {
     questionArray[currentIndex] = questionArray[randomIndex];
     questionArray[randomIndex] = temporaryValue;
   }
-
+  alert("Array sorted")
   return questionArray;
 };
 
 const PracticeScreen = props => {
-  let examQuestions = getExamQuestion();
+  const examQuestions = QUESTIONS;
   const [chapter, setChapter] = useState(examQuestions[0].chapter);
   const [question, setQuestion] = useState(examQuestions[0].question);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [answers, setAnswers] = useState(examQuestions[questionNumber].answers);
   const [chosen, setChosen] = useState(-1);
+  let count = 0;
   const [backBtnDisable, setBackBtnDisable] = useState(true);
   const [nextBtnDisable, setNextBtnDisable] = useState(false);
+  const [handIn, setHandIn] = useState(true);
 
   useEffect(() => {
     if (questionNumber >= 1) {
@@ -62,6 +64,18 @@ const PracticeScreen = props => {
     setChapter(examQuestions[questionNumber].chapter);
   }, [questionNumber]);
 
+  useEffect(() => {
+    let count = 0;
+    examQuestions.forEach(element => {
+      if(element.selectedAnswer !== -1) count++;
+    });
+
+    if(count === examQuestions.length) {
+      setHandIn(false);
+    }
+  }, [chosen])
+
+  // Runs of Next question og previous question is being pressed
   let changeQuestion = val => {
     if (val === "Next") {
       if (chosen !== -1) {
@@ -97,6 +111,16 @@ const PracticeScreen = props => {
     }
     props.navigation.navigate("Main");
   };
+
+  props.navigation.setOptions({
+    headerRight: () => (
+      <Button
+        onPress={() => alert("This is a button!")}
+        title="Lever Prøven"
+        disabled={handIn}
+      />
+    )
+  });
 
   return (
     <View style={styles.container}>

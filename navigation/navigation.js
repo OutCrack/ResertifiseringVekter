@@ -18,15 +18,7 @@ const MainStack = () => {
           name="Practice"
           component={PracticeScreen}
           options={{
-            title: "Prøveeksamen",
-            headerRight: () => (
-              <Button
-                onPress={() => alert("This is a button!")}
-                title="Lever Prøven"
-                disabled={true}
-                // color="#fff"
-              />
-            )
+            title: "Prøveeksamen"
           }}
         />
         <Stack.Screen name="ExamFinished" component={ExamFinishedScreen} />
