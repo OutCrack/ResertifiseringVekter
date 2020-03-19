@@ -2,40 +2,13 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import MultipleChoice from "react-native-multiple-choice-picker";
 
-import { QUESTIONS } from "../data/dummy-data";
-
-const getExamQuestion = () => {
-  let questionArray = QUESTIONS;
-  // Gets 80 random question from the database NOT FIXED------------------
-
-  // RANDOMIZE THE ARRAY
-  let currentIndex = questionArray.length,
-    temporaryValue,
-    randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = questionArray[currentIndex];
-    questionArray[currentIndex] = questionArray[randomIndex];
-    questionArray[randomIndex] = temporaryValue;
-  }
-  alert("Array sorted")
-  return questionArray;
-};
-
 const PracticeScreen = props => {
-  const examQuestions = QUESTIONS;
+  const { examQuestions } = props.route.params;
   const [chapter, setChapter] = useState(examQuestions[0].chapter);
   const [question, setQuestion] = useState(examQuestions[0].question);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [answers, setAnswers] = useState(examQuestions[questionNumber].answers);
   const [chosen, setChosen] = useState(-1);
-  let count = 0;
   const [backBtnDisable, setBackBtnDisable] = useState(true);
   const [nextBtnDisable, setNextBtnDisable] = useState(false);
   const [handIn, setHandIn] = useState(true);
@@ -53,12 +26,7 @@ const PracticeScreen = props => {
       setNextBtnDisable(false);
     }
 
-    if (examQuestions[questionNumber].selectedAnswer === -1) {
-      setChosen(-1);
-    } else {
-      setChosen(examQuestions[questionNumber].selectedAnswer);
-    }
-
+    setChosen(examQuestions[questionNumber].selectedAnswer);
     setQuestion(examQuestions[questionNumber].question);
     setAnswers(examQuestions[questionNumber].answers);
     setChapter(examQuestions[questionNumber].chapter);
@@ -67,13 +35,14 @@ const PracticeScreen = props => {
   useEffect(() => {
     let count = 0;
     examQuestions.forEach(element => {
-      if(element.selectedAnswer !== -1) count++;
+      if (element.selectedAnswer !== -1) count++;
     });
 
-    if(count === examQuestions.length) {
+    alert(count + " - " + examQuestions.length);
+    if (count == examQuestions.length) {
       setHandIn(false);
     }
-  }, [chosen])
+  }, [chosen, setChosen]);
 
   // Runs of Next question og previous question is being pressed
   let changeQuestion = val => {
@@ -105,11 +74,14 @@ const PracticeScreen = props => {
       }
     }
 
-    alert("Du klarte: " + correct + " riktige svar");
-    for (let i = 0; i < examQuestions.length; i++) {
-      examQuestions[i].selectedAnswer = -1;
-    }
-    props.navigation.navigate("Main");
+    // alert("Du klarte: " + correct + " riktige svar");
+    // for (let i = 0; i < examQuestions.length; i++) {
+    //   examQuestions[i].selectedAnswer = -1;
+    // }
+    props.navigation.navigate("Modal", {
+      examQuestions: examQuestions,
+      correctAnswers: correct
+    });
   };
 
   props.navigation.setOptions({
@@ -126,7 +98,7 @@ const PracticeScreen = props => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTxt}>
-          Spørsmål {questionNumber + 1} av {QUESTIONS.length} : Kapittel{" "}
+          Spørsmål {questionNumber + 1} av {examQuestions.length} : Kapittel{" "}
           {chapter}
         </Text>
       </View>
@@ -187,6 +159,7 @@ const styles = StyleSheet.create({
   },
   answer: {
     width: "100%",
+    paddingRight: 20,
     height: "50%",
     backgroundColor: "#F5F5F5"
   },
