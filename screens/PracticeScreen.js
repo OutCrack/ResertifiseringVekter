@@ -34,22 +34,30 @@ const PracticeScreen = props => {
 
   useEffect(() => {
     let count = 0;
-    examQuestions.forEach(element => {
-      if (element.selectedAnswer !== -1) count++;
+
+    if (chosen !== -1) {
+      examQuestions[questionNumber].selectedAnswer = chosen;
+    }
+
+    var countFinished = new Promise((resolve, reject) => {
+      examQuestions.forEach((value, index, array) => {
+        if (value.selectedAnswer !== -1) {
+          ++count;
+          if(index === array.length -1) resolve();
+        }
+      });
     });
 
-    alert(count + " - " + examQuestions.length);
-    if (count == examQuestions.length) {
-      setHandIn(false);
-    }
-  }, [chosen, setChosen]);
+    countFinished.then(() => {
+      if (count == examQuestions.length) {
+        setHandIn(false);
+      }
+    });
+  }, [chosen]);
 
   // Runs of Next question og previous question is being pressed
   let changeQuestion = val => {
     if (val === "Next") {
-      if (chosen !== -1) {
-        examQuestions[questionNumber].selectedAnswer = chosen;
-      }
       setQuestionNumber(questionNumber + 1);
     } else if (val === "Back") {
       if (chosen !== -1) {
@@ -74,10 +82,6 @@ const PracticeScreen = props => {
       }
     }
 
-    // alert("Du klarte: " + correct + " riktige svar");
-    // for (let i = 0; i < examQuestions.length; i++) {
-    //   examQuestions[i].selectedAnswer = -1;
-    // }
     props.navigation.navigate("Modal", {
       examQuestions: examQuestions,
       correctAnswers: correct
@@ -87,7 +91,7 @@ const PracticeScreen = props => {
   props.navigation.setOptions({
     headerRight: () => (
       <Button
-        onPress={() => alert("This is a button!")}
+        onPress={() => handinExam()}
         title="Lever Prøven"
         disabled={handIn}
       />
@@ -102,8 +106,13 @@ const PracticeScreen = props => {
           {chapter}
         </Text>
       </View>
-      <View style={styles.question}>
-        <Text style={styles.questionText}>{question}</Text>
+      <View style={styles.questionContainer}>
+        {/* <View style={styles.questionIcon}>
+          <Text style={styles.questionIconTxt}>Q:</Text>
+        </View> */}
+        <View style={styles.question}>
+          <Text style={styles.questionText}>{question}</Text>
+        </View>
       </View>
       <View style={styles.answer}>
         <MultipleChoice
@@ -111,6 +120,7 @@ const PracticeScreen = props => {
           chosenIndex={chosen}
           onPress={val => setChosen(val)}
           choices={answers}
+          // style={{height: "50%"}}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -124,7 +134,7 @@ const PracticeScreen = props => {
           disabled={nextBtnDisable}
           onPress={() => changeQuestion("Next")}
         />
-        <Button title="lever prøven" onPress={() => handinExam()} />
+        {/* <Button title="lever prøven" onPress={() => handinExam()} /> */}
       </View>
     </View>
   );
@@ -138,28 +148,46 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#E8E8E8",
+    backgroundColor: "#f5f5f5",
     width: "100%",
     height: "5%"
   },
   headerTxt: {
-    fontSize: 23
+    fontSize: 25
   },
-  question: {
-    width: "100%",
-    height: "30%",
+  questionContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
-    // backgroundColor: "blue"
+    justifyContent: "center",
+    // width: "95%",
+    height: "30%",
+    borderBottomWidth: 1,
+    borderTopWidth: 1
+  },
+  // questionIcon: {
+  //   width: "10%",
+  //   marginRight: 10,
+  //   marginLeft: 10,
+  //   alignItems: "flex-end",
+  //   justifyContent: "flex-start"
+  // },
+  // questionIconTxt: {
+  //   fontSize: 50,
+  //   fontWeight: "bold"
+  // },
+  question: {
+    width: "90%",
+    marginRight: 10
   },
   questionText: {
     fontSize: 25,
-    width: "90%",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    textAlign: "center"
   },
   answer: {
     width: "100%",
     paddingRight: 20,
+    paddingTop: 10,
     height: "50%",
     backgroundColor: "#F5F5F5"
   },

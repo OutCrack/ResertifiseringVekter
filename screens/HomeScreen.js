@@ -1,12 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { QUESTIONS } from "../data/dummy-data";
 
 const HomeScreen = props => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Resertifisering for Vektere</Text>
-      <Button title="Prøve eksamen" onPress={() => getExamQuestion(props)} />
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerTxtUpper}>Resertifisering</Text>
+        <Text style={styles.headerTxt}>Vektere</Text>
+      </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => alert("Button pressed")}
+        >
+          <Text style={styles.btnText}>Min Opplæring</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => alert("Button pressed")}
+        >
+          <Text style={styles.btnText}>Finn opplæring</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => getExamQuestion(props)}
+        >
+          <Text style={styles.btnText}>Prøveeksamen resertifisering</Text>
+        </TouchableOpacity>
     </View>
   );
 };
@@ -22,7 +42,7 @@ const getExamQuestion = props => {
     randomIndex;
 
   // While there remain elements to shuffle...
-  while (0 !== (currentIndex)) {
+  while (0 !== currentIndex) {
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -32,7 +52,7 @@ const getExamQuestion = props => {
     questionArray[currentIndex] = questionArray[randomIndex];
     questionArray[randomIndex] = temporaryValue;
   }
-  questionArray.splice(10,70); // Only send 10 random questions to examScreen
+  questionArray.splice(5, 85); // Only send 10 random questions to examScreen
   props.navigation.navigate("Practice", { examQuestions: questionArray });
 };
 
@@ -41,14 +61,38 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "center"
   },
-  header: {
+  headerContainer: {
+    alignItems: "center",
+    marginBottom: 150
+  },
+  headerTxtUpper: {
+    color: "#59566B",
+    fontSize: 50,
+    fontWeight: "bold"
+  },
+  headerTxt: {
     color: "#59566B",
     fontSize: 36,
-    fontWeight: "500"
+    fontWeight: "normal"
   },
-  menu: {}
+  buttonContainer: {
+    width: "100%"
+  },
+  button: {
+    backgroundColor: "#6694B7",
+    width: "80%",
+    padding: 10,
+    margin: 10,
+    borderRadius: 25
+  },
+  btnText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold"
+  }
 });
 
 export default HomeScreen;
