@@ -7,7 +7,7 @@ const HomeScreen = props => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.headerTxtUpper}>Resertifisering</Text>
-        <Text style={styles.headerTxt}>Vektere</Text>
+        <Text style={styles.headerTxt}> For Vektere</Text>
       </View>
         <TouchableOpacity
           style={styles.button}
@@ -52,14 +52,14 @@ const getExamQuestion = props => {
     questionArray[currentIndex] = questionArray[randomIndex];
     questionArray[randomIndex] = temporaryValue;
   }
-  questionArray.splice(5, 85); // Only send 10 random questions to examScreen
+  questionArray.splice(5, 95); // Only send 10 random questions to examScreen
   props.navigation.navigate("Practice", { examQuestions: questionArray });
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eff4f7",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   headerTxt: {
     color: "#59566B",
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: "normal"
   },
   buttonContainer: {

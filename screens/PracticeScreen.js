@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  Alert
+} from "react-native";
 import MultipleChoice from "react-native-multiple-choice-picker";
+import { Ionicons } from "@expo/vector-icons";
 
 const PracticeScreen = props => {
   const { examQuestions } = props.route.params;
@@ -43,7 +51,7 @@ const PracticeScreen = props => {
       examQuestions.forEach((value, index, array) => {
         if (value.selectedAnswer !== -1) {
           ++count;
-          if(index === array.length -1) resolve();
+          if (index === array.length - 1) resolve();
         }
       });
     });
@@ -89,6 +97,15 @@ const PracticeScreen = props => {
   };
 
   props.navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity style={styles.backBtn} onPress={() => goBack()}>
+        <Ionicons
+          name={Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"}
+          size={25}
+          color="black"
+        />
+      </TouchableOpacity>
+    ),
     headerRight: () => (
       <Button
         onPress={() => handinExam()}
@@ -97,6 +114,23 @@ const PracticeScreen = props => {
       />
     )
   });
+
+  const goBack = () => {
+    Alert.alert(
+      "Vil du avslutte eksamen?",
+      "Prøven blir ikke lagret!",
+      [
+        {
+          text: "JA",
+          onPress: () => {
+            props.navigation.navigate("Home");
+          }
+        },
+        { text: "NEI", style: "cancel" }
+      ],
+      { cancelable: true }
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -107,9 +141,6 @@ const PracticeScreen = props => {
         </Text>
       </View>
       <View style={styles.questionContainer}>
-        {/* <View style={styles.questionIcon}>
-          <Text style={styles.questionIconTxt}>Q:</Text>
-        </View> */}
         <View style={styles.question}>
           <Text style={styles.questionText}>{question}</Text>
         </View>
@@ -124,7 +155,35 @@ const PracticeScreen = props => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
+        <TouchableOpacity
+          style={styles.previusBtn}
+          disabled={backBtnDisable}
+          onPress={() => changeQuestion("Back")}
+        >
+          <Ionicons
+            name={
+              Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
+            }
+            size={50}
+            color="#6694B7"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.nextBtn}
+          disabled={nextBtnDisable}
+          onPress={() => changeQuestion("Next")}
+        >
+          <Ionicons
+            name={
+              Platform.OS === "android"
+                ? "md-arrow-forward"
+                : "ios-arrow-forward"
+            }
+            size={50}
+            color="#6694B7"
+          />
+        </TouchableOpacity>
+        {/* <Button
           title="Forrige spørsmål"
           disabled={backBtnDisable}
           onPress={() => changeQuestion("Back")}
@@ -133,8 +192,7 @@ const PracticeScreen = props => {
           title="Neste Spørsmål"
           disabled={nextBtnDisable}
           onPress={() => changeQuestion("Next")}
-        />
-        {/* <Button title="lever prøven" onPress={() => handinExam()} /> */}
+        /> */}
       </View>
     </View>
   );
@@ -145,12 +203,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
+  backBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: 13
+  },
   header: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e0e9f0",
     width: "100%",
-    height: "5%"
+    height: "6%"
   },
   headerTxt: {
     fontSize: 25
@@ -159,22 +222,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // width: "95%",
+    backgroundColor: "#eff4f7",
     height: "30%",
     borderBottomWidth: 1,
-    borderTopWidth: 1
+    borderBottomColor: "#6694b7",
+    borderTopWidth: 1,
+    borderTopColor: "#6694b7",
   },
-  // questionIcon: {
-  //   width: "10%",
-  //   marginRight: 10,
-  //   marginLeft: 10,
-  //   alignItems: "flex-end",
-  //   justifyContent: "flex-start"
-  // },
-  // questionIconTxt: {
-  //   fontSize: 50,
-  //   fontWeight: "bold"
-  // },
   question: {
     width: "90%",
     marginRight: 10
@@ -189,18 +243,29 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 10,
     height: "50%",
-    backgroundColor: "#F5F5F5"
+    backgroundColor: "#e0e9f0"
   },
   buttonContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "center",
     width: "100%",
-    height: "15%",
+    height: "14%",
     backgroundColor: "white"
   },
-  button: {
-    width: "50%"
+  previusBtn: {
+    height: "100%",
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#c1d4e2"
+  },
+  nextBtn: {
+    height: "100%",
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#b2c9db"
   }
 });
 

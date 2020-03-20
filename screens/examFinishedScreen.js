@@ -35,7 +35,6 @@ const examFinishedScreen = props => {
                   Spørsmål {itemData.index + 1} : Kapittel{" "}
                   {itemData.item.chapter}
                 </Text>
-                <Text>{itemData.item.sel}</Text>
               </View>
               <View style={styles.separator}></View>
               <View style={styles.question}>
@@ -80,14 +79,14 @@ const answersFeedback = question => {
 
   return question.answers.map((item, key) => (
     <View style={styles.answer}>
-      <Text style={{ fontSize: 15, marginRight: 3 }}>{"\u2B24"}</Text>
+      <Text style={{ fontSize: 15, marginRight: 5 }}>{"\u2B24"}</Text>
       <Text
         style={
           corAnwserPosition === key
-            ? { color: "green", fontSize: 15 }
+            ? styles.answerCorrect
             : question.selectedAnswer === key
-            ? { color: "red", fontSize: 15 }
-            : { color: "black", fontSize: 15 }
+            ? styles.answerWrong
+            : styles.answersTxt
         }
       >
         {item}
@@ -110,18 +109,15 @@ const styles = StyleSheet.create({
   },
   questionContainer: {
     height: "92%",
-    // flex: 10,
     backgroundColor: "white",
     paddingTop: 10
-    // width: "100%",
-    // alignItems: "center"
   },
   questionBox: {
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 10,
     padding: 10,
-    borderColor: "black",
+    borderColor: "#a9a9a9",
     borderRadius: 10,
     borderWidth: 0.5
   },
@@ -132,14 +128,14 @@ const styles = StyleSheet.create({
     marginBottom: 3
   },
   questionHeader: { flexDirection: "row", justifyContent: "space-between" },
-  questionHeaderTxt: { fontSize: 20, fontWeight: "bold" },
+  questionHeaderTxt: { fontSize: 25, fontWeight: "bold" },
   question: {},
-  questionTxt: { color: "black" },
+  questionTxt: { fontSize: 20, color: "black" },
   answersContainer: { marginLeft: 10, marginTop: 10 },
-  answer: { paddingTop: 0, flexDirection: "row" },
-  answersTxt: {},
-  answerCorrect: {},
-  answerWrong: {},
+  answer: { marginBottom: 5, flexDirection: "row", alignItems: "center" },
+  answersTxt: { color: "black", fontSize: 17 },
+  answerCorrect: { color: "green", fontSize: 17 },
+  answerWrong: { color: "red", fontSize: 17 },
   buttonContainer: {
     // flex: 1,
     height: "8%",
