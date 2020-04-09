@@ -102,7 +102,7 @@ const PracticeScreen = props => {
         <Ionicons
           name={Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"}
           size={25}
-          color="black"
+          color="#eff4f7"
         />
       </TouchableOpacity>
     ),
@@ -165,7 +165,7 @@ const PracticeScreen = props => {
               Platform.OS === "android" ? "md-arrow-back" : "ios-arrow-back"
             }
             size={50}
-            color="#6694B7"
+            color="#eff4f7"
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -180,19 +180,9 @@ const PracticeScreen = props => {
                 : "ios-arrow-forward"
             }
             size={50}
-            color="#6694B7"
+            color="#eff4f7"
           />
         </TouchableOpacity>
-        {/* <Button
-          title="Forrige spørsmål"
-          disabled={backBtnDisable}
-          onPress={() => changeQuestion("Back")}
-        />
-        <Button
-          title="Neste Spørsmål"
-          disabled={nextBtnDisable}
-          onPress={() => changeQuestion("Next")}
-        /> */}
       </View>
     </View>
   );
@@ -225,7 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eff4f7",
     height: "30%",
     borderBottomWidth: 1,
-    borderBottomColor: "#6694b7",
+    borderBottomColor: "#6694B7",
     borderTopWidth: 1,
     borderTopColor: "#6694b7",
   },
@@ -258,14 +248,16 @@ const styles = StyleSheet.create({
     width: "50%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#c1d4e2"
+    backgroundColor: "#6694B7"
   },
   nextBtn: {
     height: "100%",
     width: "50%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#b2c9db"
+    backgroundColor: "#6694B7",
+    borderLeftColor: "white",
+    borderWidth: 0.5
   }
 });
 

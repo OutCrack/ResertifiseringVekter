@@ -52,7 +52,7 @@ const getExamQuestion = props => {
     questionArray[currentIndex] = questionArray[randomIndex];
     questionArray[randomIndex] = temporaryValue;
   }
-  questionArray.splice(5, 95); // Only send 10 random questions to examScreen
+  questionArray.splice( 5, 100); // Only send 10 random questions to examScreen
   props.navigation.navigate("Practice", { examQuestions: questionArray });
 };
 

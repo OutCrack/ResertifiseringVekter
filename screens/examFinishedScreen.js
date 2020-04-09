@@ -16,10 +16,11 @@ const examFinishedScreen = props => {
       " Riktige",
     headerTitleAlign: "center",
     headerTitleStyle: {
-      color: "red",
+      color: "#eff4f7",
       fontSize: 30,
       fontWeight: "bold"
-    }
+    },
+    headerStyle: { backgroundColor: "#476780" },
   });
 
   return (
@@ -57,18 +58,6 @@ const examFinishedScreen = props => {
   );
 };
 
-const answeredResult = question => {
-  let corAnwserPosition = null;
-  for (let i = 0; i < question.answers.length; i++) {
-    if (question.correctAnswer === question.answers[i]) {
-      corAnwserPosition = i;
-    }
-  }
-  return (
-    <Text></Text>
-  )
-}
-
 const answersFeedback = question => {
   let corAnwserPosition = null;
   for (let i = 0; i < question.answers.length; i++) {
@@ -105,12 +94,14 @@ const resetQuestions = (props, questions) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#759ebe"
   },
   questionContainer: {
     height: "92%",
     backgroundColor: "white",
-    paddingTop: 10
+    paddingTop: 10,
+    backgroundColor: "#759ebe"
   },
   questionBox: {
     marginLeft: 10,
@@ -119,7 +110,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "#a9a9a9",
     borderRadius: 10,
-    borderWidth: 0.5
+    borderWidth: 1,
+    backgroundColor: "#e0e9f0"
   },
   separator: {
     borderBottomColor: "#D3D3D3",
@@ -128,16 +120,15 @@ const styles = StyleSheet.create({
     marginBottom: 3
   },
   questionHeader: { flexDirection: "row", justifyContent: "space-between" },
-  questionHeaderTxt: { fontSize: 25, fontWeight: "bold" },
+  questionHeaderTxt: { fontSize: 25, fontWeight: "bold", color: "#1e2c36" },
   question: {},
-  questionTxt: { fontSize: 20, color: "black" },
+  questionTxt: { fontSize: 20, color: "#1e2c36" },
   answersContainer: { marginLeft: 10, marginTop: 10 },
   answer: { marginBottom: 5, flexDirection: "row", alignItems: "center" },
-  answersTxt: { color: "black", fontSize: 17 },
-  answerCorrect: { color: "green", fontSize: 17 },
-  answerWrong: { color: "red", fontSize: 17 },
+  answersTxt: { color: "#1e2c36", fontSize: 20 },
+  answerCorrect: { color: "green", fontSize: 20 },
+  answerWrong: { color: "red", fontSize: 20 },
   buttonContainer: {
-    // flex: 1,
     height: "8%",
     width: "50%",
     justifyContent: "center"

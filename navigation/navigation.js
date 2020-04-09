@@ -22,7 +22,14 @@ const MainStackScreen = () => {
         name="Practice"
         component={PracticeScreen}
         options={{
-          title: "Prøveeksamen"
+          title: "Prøveeksamen",
+          headerStyle: { backgroundColor: "#6694B7" },
+          headerTitleAlign: "left",
+          headerTitleStyle: {
+            color: "#eff4f7",
+            fontSize: 30,
+            // fontWeight: "bold"
+          },
         }}
       />
     </Stack.Navigator>
@@ -41,7 +48,10 @@ const AppNavigation = () => {
         <RootStack.Screen
           name="Modal"
           component={ExamFinishedModal}
-          options={{ headerLeft: null }}
+          options={{
+            headerLeft: null,
+            headerTintColor: "#e0e9f0"
+          }}
         />
       </RootStack.Navigator>
     </NavigationContainer>
